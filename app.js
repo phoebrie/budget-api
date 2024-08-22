@@ -14,16 +14,19 @@ const example_envelope = {
   description: "hello world",
 };
 
+// Get all envelopes
 app.get("/", (req, res) => {
   res.json(envelopes);
 });
 
+// Get envelope at specific ID
 app.get("/envelopes/:id", (req, res) => {
   const envelope_id = req.params["id"];
   const envelope = envelopes.find((e) => e.id === envelope_id);
   res.json(envelope);
 });
 
+// Create envelope with unique ID
 app.post("/envelopes", (req, res) => {
   const envelope = req.body;
   const existing_envelope = envelopes.find((e) => e.id === envelope.id);
@@ -32,6 +35,14 @@ app.post("/envelopes", (req, res) => {
   }
 
   envelopes.push(envelope);
+  res.json({ envelopes });
+});
+
+// Update existing element
+app.put("/envelopes/:id", (req, res) => {
+  const envelope_id = req.params["id"];
+  let envelope = envelopes.find((e) => e.id === envelope_id);
+  envelope = envelope["budget"] -= req.body.to_subtract;
   res.json({ envelopes });
 });
 
