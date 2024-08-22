@@ -38,11 +38,19 @@ app.post("/envelopes", (req, res) => {
   res.json({ envelopes });
 });
 
-// Update existing element
+// Update budget of existing element
 app.put("/envelopes/:id", (req, res) => {
   const envelope_id = req.params["id"];
   let envelope = envelopes.find((e) => e.id === envelope_id);
   envelope = envelope["budget"] -= req.body.to_subtract;
+  res.json({ envelopes });
+});
+
+// Delete envelope by ID
+app.delete("/envelopes/:id", (req, res) => {
+  const envelope_id = req.params["id"];
+  let envelope = envelopes.indexOf((e) => e.id === envelope_id);
+  envelopes.splice(envelope, 1);
   res.json({ envelopes });
 });
 
